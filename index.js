@@ -21,17 +21,20 @@ const currentScreen = document.getElementById("currentsum");
 const history = document.getElementById("history");
 
 var equString = "";
-var prev = "";
+var justEqed = false;
 function addNum(num) {
-  equString += num;
-
-  currentScreen.innerHTML = equString;
+    if(justEqed){
+        equString=""
+        justEqed = false
+    }
+    equString += num;
+    currentScreen.innerHTML = equString;
 }
 function addOperand(op){
-    if(prev != ""){
-        equString+=prev
-        prev=""
+    if(justEqed){
+        justEqed = false
     }
+    console.log(equString, op);
     equString+=op
     currentScreen.innerHTML = equString;
 }
@@ -82,8 +85,9 @@ mul.onclick = () => {
 
 equ.onclick = () => {
   const answer = eval(equString);
-  prev = answer
+  justEqed = true
   currentScreen.innerHTML = answer;
+
   history.innerHTML = equString;
-  equString = "";
+  equString = answer.toString();
 };
